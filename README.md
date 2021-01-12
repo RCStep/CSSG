@@ -1,6 +1,8 @@
 # CSSG
 
-# Cobalt Strike Shellcode Generator
+# Cobalt Strike Shellcode Generator  
+
+Adds Shellcode - Shellcode Generator to the Cobalt Strike top menu bar
 
 ![Alt text](CSSG_gui.png?raw=true)  
 
