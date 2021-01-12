@@ -4,7 +4,7 @@
 
 Adds Shellcode - Shellcode Generator to the Cobalt Strike top menu bar
 
-![Alt text](CSSG_gui.png?raw=true)  
+![Alt text](CSSG_gui2.png?raw=true)  
 
 CSSG is an aggressor and python script used to more easily generate and format beacon shellcode  
 
