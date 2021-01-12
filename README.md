@@ -1,6 +1,6 @@
 # CSSG
 
-Cobalt Strike Shellcode Generator
+# Cobalt Strike Shellcode Generator
 
 
 Aggressor and python scripts to generate beacon shellcode
