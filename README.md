@@ -107,3 +107,7 @@ Defalut filename will be beacon but can be changed
 Any encryption key used will be displayed in a popup and also written the Cobalt Strike Script Console  
 The byte size of the raw beacon shellcode and final formatted beacon shellcode will be displayed in a popup and also written to the Script Console  
 Location of files used to generate/build the shellcode are set the .cs file  
+
+---
+
+Inspired by previous work of @offsec_ginger https://github.com/offsecginger/AggressorScripts
