@@ -29,7 +29,7 @@ You can check that pycryptodome is present after the pip install with a command 
 
     python -m pip list | grep crypto
 
-The generator will use the system's default "python" command to lanuch the AES encryption script  
+The generator will use the system's default "python" command to launch the AES encryption script  
 
 ---
 
