@@ -1,7 +1,7 @@
 # CSSG
----------------------
+
 Cobalt Strike Shellcode Generator
-----------------------
+
 
 Aggressor and python scripts to generate beacon shellcode
 Generates beacon stageless shellcode with exposed exit method and additional formatting, encryption, encoding, compression, multiline output, etc
