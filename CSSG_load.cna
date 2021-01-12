@@ -1,0 +1,20 @@
+# Shellcode Generator
+# Inspired by @offsec_ginger https://github.com/offsecginger/AggressorScripts
+#
+# Shellcode Generator
+#
+#	Add "Shellcode" top menubar button, "Shellcode Generator" submenu item, and load shellcode_generator.cna on click
+
+# Location of shellcode generator cna
+$SCGEN = "/scripts/shellcode_generator.cna";
+
+menubar("Shellcode", "shellcodegen", 2);
+popup shellcodegen {
+
+	item "&Shellcode Generator" {
+		@aggressor = script_resource(($SCGEN)."");
+		println(@aggressor);
+		include(@aggressor);
+		}
+		
+}
