@@ -6,9 +6,13 @@ Adds Shellcode - Shellcode Generator to the Cobalt Strike top menu bar
 
 ![Alt text](CSSG_gui.png?raw=true)  
 
-Aggressor and python scripts to generate beacon shellcode  
+CSSG is an aggressor and python script used to more easlity generate and format beacon shellcode  
+
 Generates beacon stageless shellcode with exposed exit method, additional formatting, encryption, encoding, compression, multiline output, etc  
-**shellcode transforms are done in the order they are listed in the menu**  
+
+**shellcode transforms are generally performed in descending menu order**  
+
+---
 
 **Requirements:**  
 The optional AES encryption option uses a python script in the /assets folder  
@@ -27,7 +31,9 @@ You can check that pycryptodome is present after the pip install with a command 
 
 The generator will use the system's default "python" command to lanuch the AES encryption script  
 
-Options for the shellcode generator are:  
+---
+
+***Options for the shellcode generator are:***
 
 **Listener:**  
 Select a valid listener with the "..." button. Shellcode will be generated form this listener selection  
