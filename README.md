@@ -3,8 +3,8 @@
 # Cobalt Strike Shellcode Generator
 
 Aggressor and python scripts to generate beacon shellcode  
-Generates beacon stageless shellcode with exposed exit method and additional formatting, encryption, encoding, compression, multiline output, etc  
-**shellcode transforms are done in the order they are listed in the menu
+Generates beacon stageless shellcode with exposed exit method, additional formatting, encryption, encoding, compression, multiline output, etc  
+**shellcode transforms are done in the order they are listed in the menu**  
 
 **Requirements:**  
 The optional AES encryption option uses a python script in the /assets folder  
