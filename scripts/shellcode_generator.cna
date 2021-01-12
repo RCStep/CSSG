@@ -40,7 +40,7 @@ $HELPFILE = "/help/shellcode_generator_help.html";
 sub generate_shellcode {
 # Generate and cutomize the payload submenu
 	$dialog = dialog("Shellcode Generator", %(listener => "Select Listener", xor_key => random_string("1"), aes_key => random_string("32"), line_length => "80"), &shellcode_gen);
-	dialog_description($dialog, "Geneate beacon stageless shellcode or use external shellcode file. Options applied in descending order.");
+	dialog_description($dialog, "Generate beacon stageless shellcode or use external shellcode file. Options applied in descending order.");
 	drow_listener_stage($dialog, "listener", "Listener: ");
 	drow_combobox($dialog, "payload_type", "Delivery: ", @("Stageless","Staged"));
 	drow_combobox($dialog, "exit_method", "Exit Method: ", @("process", "thread"));
