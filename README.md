@@ -63,7 +63,8 @@ This allows you to use previously exported shellcode files or output from other 
 **Formatting:**  
 raw - raw binary shellcode output, no formatting applied  
 hex - hex formatted shellcode output  
-0x90,0x90,0x90 - shellcode formatted into a C# style byte array  
+0x90,0x90,0x90 - shellcode formatted into a C# style byte array
+0x90uy;0x90uy;0x90uy - shellcode formatted into a F# style byte array    
 \x90\x90\x90 - shellcode formatted into a C\C++ style byte array  
 b64 - option to base64 encode the shellcode early in the generation process (before any encryption)  
 
@@ -90,7 +91,8 @@ none - No additional encoding or compression is done to the shellcode
 b64 - base64 encode the shellcode  
 gzip then b64 - gzip compress then base64 the shellcode  
 gzip - gzip compress the shellcode  
-b64 then gzip - base64 then gzip compress the shellcode  
+b64 then gzip - base64 then gzip compress the shellcode
+b64 then 7xgzip - base64 then gzip compress the shellcode 7 times
 
 **Multiline Output:**  
 Can be used for non-raw/binary output formats  

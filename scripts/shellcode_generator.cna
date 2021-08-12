@@ -48,12 +48,12 @@ sub generate_shellcode {
 	drow_beacon($dialog, "bid", "Existing Session: ");
 	drow_checkbox($dialog, "x86", "x86: ", "Use x86 Shellcode");
 	drow_file($dialog, "scfile", "Or Use Shellcode File: ");
-	drow_combobox($dialog, "format", "Formatting: ", @("raw","hex","0x90\,0x90,\0x90","\\x90\\x90\\x90","b64"));
+	drow_combobox($dialog, "format", "Formatting: ", @("raw","hex","0x90\,0x90\,0x90","\\x90\\x90\\x90","0x90uy\;0x90uy\;0x90uy","b64"));
 	drow_checkbox($dialog, "XOR", "XOR: ", "XOR Encrypt Shellcode");
 	drow_text($dialog, "xor_key", "XOR Key\(s\): ");
 	drow_checkbox($dialog, "AES", "AES: ", "AES Encrypt Shellcode");
 	drow_text($dialog, "aes_key", "AES Key: ");
-	drow_combobox($dialog, "encode_compress", "Encoding/Compression: ", @("none","b64","gzip then b64","gzip","b64 then gzip"));
+	drow_combobox($dialog, "encode_compress", "Encoding/Compression: ", @("none","b64","gzip then b64","gzip","b64 then gzip","b64 then 7xgzip"));
 	drow_combobox($dialog, "multiline", "Multiline Output: ", @("none","quoted","chunks.push_back"));
 	drow_text($dialog, "line_length", "Multiline Length: ");
 	dbutton_action($dialog, "Generate");
@@ -136,6 +136,11 @@ sub shellcode_gen {
 		# c# format
 		if ($3['format'] eq "0x90\,0x90,\0x90") {
 			$format_shellcode = format_csharp($shellcode);
+		}
+
+		# f# format
+		if ($3['format'] eq "0x90uy\;0x90uy\;0x90uy") {
+			$format_shellcode = format_fsharp($shellcode);
 		}
 
 		# c/cpp format
@@ -229,6 +234,11 @@ sub shellcode_gen {
 			$encoded_shellcode = gzip(base64_encode($encrypted_shellcode));
 		}
 
+		# b64 encoded then 7x gzip compressed shellcode
+		if ($3['encode_compress'] eq "b64 then 7xgzip") {
+			$encoded_shellcode = gzip(gzip(gzip(gzip(gzip(gzip(gzip(base64_encode($encrypted_shellcode))))))));
+		}
+
 		###### Multiline Output Section
 
 		if ($3['multiline'] eq "none") {
@@ -294,6 +304,13 @@ sub format_csharp {
 	$key = $1;
 	@fmt = str_chunk(transform($key, "hex"), 2);
 	return "0x". join(",0x", @fmt);
+}
+
+# Format shellcode into F# type 0x90uy;0x90uy;0x90uy
+sub format_fsharp {
+	$key = $1;
+	@fmt = str_chunk(transform($key, "hex"), 2);
+	return "0x". join("uy\;0x", @fmt) ."uy";
 }
 
 # Format shellcode into C/C++ type \x90\x90\x90
