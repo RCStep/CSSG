@@ -116,6 +116,6 @@ Location of files used to generate/build the shellcode are set the .cs file
 The xor/aes transofrms are not self-decrypting, you would need to decrypt those in your own source.  
 (looking at the sourcecode reveals that)  
 CSSG is not intended to be a shellcode evasion easy-button, else I would have not relased it,  
-but a tool to help with generating shellcode to plug into your own projects.  
+but a tool to help with generating shellcode to plug into other projects.  
 
 Inspired by previous work of @offsec_ginger https://github.com/offsecginger/AggressorScripts
