@@ -50,6 +50,7 @@ May use if you are going to execute the shellcode from an existing Beacon
 Generates a Beacon shellcode payload that inherits key function pointers from a same-arch parent Beacon  
 
 **Existing Session:**  
+Combined with the above checkbox  
 The parent Beacon session where the shellcode will pull session metadata  
 Shellcode should be run from within this Beacon session  
 
