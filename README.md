@@ -61,11 +61,17 @@ Use an externally generated raw shellcode file in lieu of generating Beacon shel
 This allows you to use previously exported shellcode files or output from other tools (Donut, msfvenom, etc)  
 
 **Formatting:**  
+
 raw - raw binary shellcode output, no formatting applied  
+
 hex - hex formatted shellcode output  
+
 0x90,0x90,0x90 - shellcode formatted into a C# style byte array (example format, does not prepend nulls)
+
 0x90uy;0x90uy;0x90uy - shellcode formatted into a F# style byte array (example format, does not prepend nulls)  
+
 \x90\x90\x90 - shellcode formatted into a C\C++ style byte array (example format, does not prepend nulls)
+
 b64 - option to base64 encode the shellcode early in the generation process (before any encryption)  
 
 **XOR Encrypt Shellcode Checkbox:**  
