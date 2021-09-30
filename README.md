@@ -93,7 +93,7 @@ none - No additional encoding or compression is done to the shellcode
 b64 - base64 encode the shellcode  
 gzip then b64 - gzip compress then base64 the shellcode  
 gzip - gzip compress the shellcode  
-b64 then gzip - base64 then gzip compress the shellcode
+b64 then gzip - base64 then gzip compress the shellcode  
 b64 then 7xgzip - base64 then gzip compress the shellcode 7 times
 
 **Multiline Output:**  
