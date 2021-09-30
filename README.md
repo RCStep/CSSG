@@ -45,7 +45,7 @@ Stageless (Staged not supported for the shellcode generator)
 process - exits the entire process that beacon is present in when the beacon is closed  
 thread - exits only the thread in which beacon is running when the beacon is closed  
 
-**Local Shellcode Checkbox:**  
+**Local Pointers Checkbox:**  
 May use if you are going to execute the shellcode from an existing Beacon  
 Generates a Beacon shellcode payload that inherits key function pointers from a same-arch parent Beacon  
 
