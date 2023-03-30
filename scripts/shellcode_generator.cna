@@ -27,6 +27,9 @@ $AESKEY = "/build/aes_key.txt";
 # Python script used to generate the aes encrypted shellcode file
 $AESPYTHON = "/assets/aes_file.py";
 
+# Python script used to generate the UUID formatted shellcode file
+$UUIDPYTHON = "/assets/bin2uuids_file.py";
+
 # File containing the output of format_shellcode for python injestion
 $FORMATTED = "/build/formatted_shellcode";
 
@@ -48,7 +51,7 @@ sub generate_shellcode {
 	drow_beacon($dialog, "bid", "Existing Session: ");
 	drow_checkbox($dialog, "x86", "x86: ", "Use x86 Shellcode");
 	drow_file($dialog, "scfile", "Or Use Shellcode File: ");
-	drow_combobox($dialog, "format", "Formatting: ", @("raw","hex","0x90\,0x90\,0x90","\\x90\\x90\\x90","0x90uy\;0x90uy\;0x90uy","b64"));
+	drow_combobox($dialog, "format", "Formatting: ", @("raw","hex","0x90\,0x90\,0x90","\\x90\\x90\\x90","0x90uy\;0x90uy\;0x90uy\;","UUID","b64"));
 	drow_checkbox($dialog, "XOR", "XOR: ", "XOR Encrypt Shellcode");
 	drow_text($dialog, "xor_key", "XOR Key\(s\): ");
 	drow_checkbox($dialog, "AES", "AES: ", "AES Encrypt Shellcode");
@@ -139,13 +142,33 @@ sub shellcode_gen {
 		}
 
 		# f# format
-		if ($3['format'] eq "0x90uy\;0x90uy\;0x90uy") {
+		if ($3['format'] eq "0x90uy\;0x90uy\;0x90uy\;") {
 			$format_shellcode = format_fsharp($shellcode);
 		}
 
 		# c/cpp format
 		if ($3['format'] eq "\\x90\\x90\\x90") {
 			$format_shellcode = format_cpp($shellcode);
+		}
+
+		# UID format
+		if ($3['format'] eq "UUID") {
+			# Write $shellcode to a file for encryption
+			$shellcode_resource = openf(">".script_resource($SCFILE)."");
+			writeb($shellcode_resource, $shellcode);
+			closef($shellcode_resource);
+			sleep(3 * 1000);
+			# Use UUID python script to transform the shellcode file
+			$uuid_python = script_resource(($UUIDPYTHON)."");
+			$in_file = script_resource(($SCFILE)."");
+			$out_file = script_resource(($FORMATTED)."");
+			exec("python ". $uuid_python ." $in_file $out_file");
+			println("python ". $uuid_python ." $in_file $out_file");
+			# Set $format_shellcode value from the UUID transformed file
+			sleep(3 * 1000);
+			$format_resource = openf(script_resource($FORMATTED)."");
+			$format_shellcode = readb($format_resource, -1);
+			closef($encrypted_resource);
 		}
 
 		# early b64 encoding option
@@ -306,11 +329,11 @@ sub format_csharp {
 	return "0x". join(",0x", @fmt);
 }
 
-# Format shellcode into F# type 0x90uy;0x90uy;0x90uy
+# Format shellcode into F# type 0x90uy;0x90uy;0x90uy;
 sub format_fsharp {
 	$key = $1;
 	@fmt = str_chunk(transform($key, "hex"), 2);
-	return "0x". join("uy\;0x", @fmt) ."uy";
+	return "0x". join("uy\;0x", @fmt) ."uy\;";
 }
 
 # Format shellcode into C/C++ type \x90\x90\x90

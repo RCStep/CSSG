@@ -45,12 +45,11 @@ Stageless (Staged not supported for the shellcode generator)
 process - exits the entire process that beacon is present in when the beacon is closed  
 thread - exits only the thread in which beacon is running when the beacon is closed  
 
-**Local Pointers Checkbox:**  
+**Local Shellcode Checkbox:**  
 May use if you are going to execute the shellcode from an existing Beacon  
 Generates a Beacon shellcode payload that inherits key function pointers from a same-arch parent Beacon  
 
 **Existing Session:**  
-Only used if the Local Pointers checkbox is checked  
 The parent Beacon session where the shellcode will pull session metadata  
 Shellcode should be run from within this Beacon session  
 
@@ -62,12 +61,12 @@ Use an externally generated raw shellcode file in lieu of generating Beacon shel
 This allows you to use previously exported shellcode files or output from other tools (Donut, msfvenom, etc)  
 
 **Formatting:**  
-
 raw - raw binary shellcode output, no formatting applied  
 hex - hex formatted shellcode output  
-0x90,0x90,0x90 - shellcode formatted into a C# style byte array (example format, does not prepend nulls)  
-0x90uy;0x90uy;0x90uy - shellcode formatted into a F# style byte array (example format, does not prepend nulls)  
-\x90\x90\x90 - shellcode formatted into a C\C++ style byte array (example format, does not prepend nulls)   
+0x90,0x90,0x90 - shellcode formatted into a C# style byte array
+0x90uy;0x90uy;0x90uy - shellcode formatted into a F# style byte array    
+\x90\x90\x90 - shellcode formatted into a C\C++ style byte array
+UUID - shellcode transformed into UUID strings with a python script (padded with \x90s for 16 byte chunks) 
 b64 - option to base64 encode the shellcode early in the generation process (before any encryption)  
 
 **XOR Encrypt Shellcode Checkbox:**  
@@ -93,7 +92,7 @@ none - No additional encoding or compression is done to the shellcode
 b64 - base64 encode the shellcode  
 gzip then b64 - gzip compress then base64 the shellcode  
 gzip - gzip compress the shellcode  
-b64 then gzip - base64 then gzip compress the shellcode  
+b64 then gzip - base64 then gzip compress the shellcode
 b64 then 7xgzip - base64 then gzip compress the shellcode 7 times
 
 **Multiline Output:**  
@@ -110,14 +109,8 @@ Select directory for shellcode output
 Defalut filename will be beacon but can be changed  
 Any encryption key used will be displayed in a popup and also written the Cobalt Strike Script Console  
 The byte size of the raw beacon shellcode and final formatted beacon shellcode will be displayed in a popup and also written to the Script Console  
-
 Location of files used to generate/build the shellcode are set the .cs file  
 
 ---
 
-The xor/aes transofrms are not self-decrypting, you would need to decrypt those in your own source.  
-(looking at the sourcecode reveals that)  
-CSSG is not intended to be a shellcode evasion easy-button, else I would have not relased it,  
-but a tool to help with generating shellcode to plug into other projects.  
-
-Inspired by previous work of @offsec_ginger https://github.com/offsecginger/AggressorScripts  
+Inspired by previous work of @offsec_ginger https://github.com/offsecginger/AggressorScripts
