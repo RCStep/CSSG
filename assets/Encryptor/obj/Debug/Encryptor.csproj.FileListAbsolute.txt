@@ -1,0 +1,6 @@
+C:\Tools\cobaltstrike\aggressors\CSSG\assets\Encryptor\bin\Debug\Encryptor.exe
+C:\Tools\cobaltstrike\aggressors\CSSG\assets\Encryptor\bin\Debug\Encryptor.pdb
+C:\Tools\cobaltstrike\aggressors\CSSG\assets\Encryptor\obj\Debug\Encryptor.csproj.CoreCompileInputs.cache
+C:\Tools\cobaltstrike\aggressors\CSSG\assets\Encryptor\obj\Debug\Encryptor.exe
+C:\Tools\cobaltstrike\aggressors\CSSG\assets\Encryptor\obj\Debug\Encryptor.pdb
+C:\Tools\cobaltstrike\aggressors\CSSG\assets\Encryptor\obj\Debug\Encryptor.csproj.AssemblyReference.cache
