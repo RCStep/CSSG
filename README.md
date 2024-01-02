@@ -49,6 +49,15 @@ Stageless (Staged not supported for the shellcode generator)
 process - exits the entire process that Beacon is present in when the beacon is closed  
 thread - exits only the thread in which Beacon is running when the beacon is closed  
 
+**Beacon Syscalls Method:**  
+none  
+direct  
+indirect  
+
+**Beacon HTTP Library:**  
+wininet  
+winhttp  
+
 **Local Pointers Checkbox:**  
 May use if you are going to execute the shellcode from an existing Beacon  
 Generates a Beacon shellcode payload that inherits key function pointers from a same-arch parent Beacon  
